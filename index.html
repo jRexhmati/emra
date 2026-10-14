@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="sq">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Emrat shqip 3–6 shkronja me numrin e lindjeve çdo vit 2016–2025, nga INSTAT.">
+<title>Emrat 2016–2025</title>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: registry ledger — compact header + filter bar, one wide scrolling table with per-name 10-year sparklines */
+:root{
+  --bg:#f6f4f3; --surface:#ffffff; --ink:#1f1a1c; --muted:#6e6467; --line:#e4dedf;
+  --accent:#b3192b; --accent-soft:#f6dfe2; --f:#b03a6b; --m:#2f5f9e; --spark:#b3192b;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#161314; --surface:#1f1b1c; --ink:#efe9ea; --muted:#a59a9d; --line:#342d2f;
+  --accent:#ec5466; --accent-soft:#3d2025; --f:#e28bb0; --m:#84aee6; --spark:#ec5466; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#161314; --surface:#1f1b1c; --ink:#efe9ea; --muted:#a59a9d; --line:#342d2f;
+  --accent:#ec5466; --accent-soft:#3d2025; --f:#e28bb0; --m:#84aee6; --spark:#ec5466; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14px}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:16px;padding-block:28px 48px;display:grid;gap:20px}
+header{display:grid;gap:6px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(28px,5vw,44px);line-height:1.05;margin:0;text-wrap:balance}
+.lede{color:var(--muted);max-width:68ch;margin:0;line-height:1.5}
+.stats{display:flex;flex-wrap:wrap;gap:8px 24px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.stats b{color:var(--ink);font-weight:500}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;position:sticky;top:env(safe-area-inset-top,0px);z-index:3;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line)}
+.bar input[type=search]{flex:1 1 200px;min-width:0;font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface)}
+.seg button{font:500 12px var(--mono);border:0;background:none;color:var(--muted);padding:8px 10px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--accent-soft);color:var(--accent)}
+button:focus-visible,input:focus-visible,th:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.count{font-family:var(--mono);font-size:12px;color:var(--muted);margin-left:auto}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:7px 10px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line)}
+th{font:500 11px var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--muted);background:var(--surface);position:sticky;top:0;cursor:pointer;user-select:none}
+th.sorted{color:var(--accent)}
+th.l,td.l{text-align:left}
+td{font-family:var(--mono);font-size:12.5px}
+td.yr{color:var(--muted)} td.yr.hi{color:var(--ink);font-weight:500}
+td.name{font-family:var(--body);font-weight:600;font-size:14px}
+td.name a{color:var(--ink);text-decoration:none} td.name a:hover{color:var(--accent);text-decoration:underline}
+td.rank{color:var(--muted)}
+td.sum{font-weight:500;color:var(--accent)}
+.g{display:inline-block;min-width:18px;text-align:center;font:600 11px var(--mono);border-radius:4px;padding:1px 4px}
+.g.F{color:var(--f)} .g.M{color:var(--m)}
+tbody tr:hover td{background:var(--accent-soft)}
+svg.sp{display:block}
+.more{justify-self:center;font:500 13px var(--body);padding:10px 18px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);cursor:pointer}
+.empty{padding:24px;color:var(--muted);text-align:center}
+footer{color:var(--muted);font-size:12px;line-height:1.5;max-width:80ch}
+footer a{color:var(--accent)}
+</style>
+<style>*{box-sizing:border-box}body{margin:0}</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">INSTAT · Kërko Emrin · lindje të regjistruara 2016–2025</div>
+    <h1>Albanian first names, 3–6 letters</h1>
+    <p class="lede">Every candidate name checked against INSTAT's name search. Names with no registered person were dropped. Columns show births registered each year; the table is ranked by the 10-year total.</p>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <div class="bar">
+    <input type="search" id="q" placeholder="Search a name…" autocomplete="off">
+    <div class="seg" id="len" role="group" aria-label="Letters">
+      <button data-v="0" aria-pressed="true">All</button><button data-v="3" aria-pressed="false">3</button><button data-v="4" aria-pressed="false">4</button><button data-v="5" aria-pressed="false">5</button><button data-v="6" aria-pressed="false">6</button>
+    </div>
+    <div class="seg" id="sex" role="group" aria-label="Gender">
+      <button data-v="" aria-pressed="true">All</button><button data-v="F" aria-pressed="false">F</button><button data-v="M" aria-pressed="false">M</button>
+    </div>
+    <div class="seg" id="act" role="group" aria-label="Activity">
+      <button data-v="1" aria-pressed="true">Used 2016–25</button><button data-v="0" aria-pressed="false">Include unused</button>
+    </div>
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="tbl"><table>
+    <thead><tr id="head"></tr></thead>
+    <tbody id="body"></tbody>
+  </table></div>
+  <button class="more" id="more" hidden>Show 300 more</button>
+
+  <footer><a id="csv" href="#" download="emrat_2016_2025.csv">Download CSV</a> · Source: <a href="https://www.instat.gov.al/sq/kerko-emrin/" target="_blank" rel="noopener">INSTAT, Kërko Emrin</a>, yearly counts from each name's popularity chart. Each name links to its INSTAT page. 2025 may be incomplete. Spelling matters to INSTAT (Arbër ≠ Arber), so a name appears only in the spellings that were checked. Gender with * means the name is registered for both sexes; the majority is shown.</footer>
+</div>
+
+<script>
+let DATA=[];
+const CSVH=["Rank","Name","Letters","Gender","Female","Male","All-time total",...["2016","2017","2018","2019","2020","2021","2022","2023","2024","2025"],"Total 2016-2025","Peak year"];
+function inflate(rows){const Y=["2016","2017","2018","2019","2020","2021","2022","2023","2024","2025"];
+  const out=rows.map(r=>{const y=r.slice(6);const s=y.reduce((a,b)=>a+b,0);const mx=Math.max(...y);
+    return {n:r[0],q:r[1]||r[0].toLowerCase(),len:[...r[0]].length,g:r[2],f:r[3],m:r[4],t:r[5],y,s,p:s?Y[y.indexOf(mx)]:""}});
+  out.sort((a,b)=>b.s-a.s);out.forEach((d,i)=>d.r=i+1);return out}
+const YEARS=["2016","2017","2018","2019","2020","2021","2022","2023","2024","2025"];
+const st={q:"",len:0,sex:"",act:1,key:"s",dir:-1,shown:300};
+const cols=[
+  {k:"r",t:"#",c:"rank"},{k:"n",t:"Name",c:"l name"},{k:"g",t:"Sex",c:"l"},
+  ...YEARS.map((y,i)=>({k:"y"+i,t:y,c:"yr",yi:i})),
+  {k:"s",t:"2016–25",c:"sum"},{k:"sp",t:"Trend",c:"l",ns:1},{k:"p",t:"Peak",c:""},{k:"t",t:"All-time",c:""}
+];
+const fmt=n=>n.toLocaleString("en-US");
+const val=(d,k)=>k[0]==="y"&&k.length<4&&k!=="y"?d.y[+k.slice(1)]:d[k];
+function spark(y){const w=84,h=22,mx=Math.max(...y,1);const pts=y.map((v,i)=>[2+i*(w-4)/9,h-2-(v/mx)*(h-4)]);
+  const line=pts.map(p=>p.map(n=>n.toFixed(1)).join(",")).join(" ");
+  const area=`2,${h-2} ${line} ${w-2},${h-2}`;const e=pts[9];
+  return `<svg class="sp" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><polygon points="${area}" fill="var(--accent-soft)"/><polyline points="${line}" fill="none" stroke="var(--spark)" stroke-width="1.5"/><circle cx="${e[0].toFixed(1)}" cy="${e[1].toFixed(1)}" r="2" fill="var(--spark)"/></svg>`}
+function rows(){const q=st.q.trim().toLowerCase();
+  let r=DATA.filter(d=>(!st.len||d.len===st.len)&&(!st.sex||d.g[0]===st.sex)&&(!st.act||d.s>0)&&(!q||d.n.toLowerCase().includes(q)));
+  const k=st.key;r.sort((a,b)=>{const x=val(a,k),y=val(b,k);return (typeof x==="string"?x.localeCompare(y,"sq"):x-y)*st.dir||a.r-b.r});return r}
+function head(){document.getElementById("head").innerHTML=cols.map(c=>`<th class="${c.c.includes("l")?"l":""} ${st.key===c.k?"sorted":""}" ${c.ns?"":`tabindex="0" data-k="${c.k}"`} aria-sort="${st.key===c.k?(st.dir<0?"descending":"ascending"):"none"}">${c.t}${st.key===c.k?(st.dir<0?" ↓":" ↑"):""}</th>`).join("")}
+function render(){head();const r=rows();const list=r.slice(0,st.shown);
+  document.getElementById("count").textContent=`${fmt(r.length)} names`;
+  document.getElementById("body").innerHTML=list.length?list.map(d=>{const mx=Math.max(...d.y);return `<tr><td class="rank">${d.r}</td><td class="l name"><a href="https://www.instat.gov.al/sq/kerko-emrin/?Name=${encodeURIComponent(d.q)}" target="_blank" rel="noopener">${d.n}</a></td><td class="l"><span class="g ${d.g[0]}">${d.g}</span></td>${d.y.map(v=>`<td class="yr ${v===mx&&v>0?"hi":""}">${v?fmt(v):"·"}</td>`).join("")}<td class="sum">${fmt(d.s)}</td><td class="l">${spark(d.y)}</td><td>${d.p||"–"}</td><td>${fmt(d.t)}</td></tr>`}).join(""):`<tr><td colspan="${cols.length}" class="empty">No names match. Clear the search or change a filter.</td></tr>`;
+  document.getElementById("more").hidden=r.length<=st.shown}
+document.getElementById("head").addEventListener("click",e=>{const th=e.target.closest("th[data-k]");if(!th)return;const k=th.dataset.k;
+  if(st.key===k)st.dir*=-1;else{st.key=k;st.dir=(k==="n"||k==="g"||k==="r")?1:-1}st.shown=300;render()});
+document.getElementById("head").addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.dataset.k)e.target.click()});
+for(const id of ["len","sex","act"])document.getElementById(id).addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+  [...b.parentNode.children].forEach(x=>x.setAttribute("aria-pressed",x===b));const v=b.dataset.v;st[id]=id==="sex"?v:+v;st.shown=300;render()});
+document.getElementById("q").addEventListener("input",e=>{st.q=e.target.value;st.shown=300;render()});
+document.getElementById("more").addEventListener("click",()=>{st.shown+=300;render()});
+function stats(){const used=DATA.filter(d=>d.s>0);const top=used[0];const tot=used.reduce((a,d)=>a+d.s,0);
+  const tf=used.find(d=>d.g[0]==="F"),tm=used.find(d=>d.g[0]==="M");
+  document.getElementById("stats").innerHTML=`<span><b>${fmt(DATA.length)}</b> names found</span><span><b>${fmt(used.length)}</b> given 2016–2025</span><span><b>${fmt(tot)}</b> births covered</span>${tf?`<span>Top girl <b>${tf.n}</b> (${fmt(tf.s)})</span>`:""}${tm?`<span>Top boy <b>${tm.n}</b> (${fmt(tm.s)})</span>`:""}`}
+fetch("data.json").then(r=>r.json()).then(rows=>{DATA=inflate(rows);stats();render();
+  const csv=[CSVH.join(",")].concat(DATA.map(d=>[d.r,d.n,d.len,d.g,d.f,d.m,d.t,...d.y,d.s,d.p].join(","))).join("\n");
+  const a=document.getElementById("csv");a.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv"}));});
+</script>
+
+</body>
+</html>
