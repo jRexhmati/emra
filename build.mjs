@@ -43,6 +43,9 @@ function head({ title, desc, path, jsonld, extra = "" }) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)}</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KJJ7Q27E4Q"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-KJJ7Q27E4Q');</script>
+
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${SITE}${path}">
 <meta name="robots" content="index,follow">
