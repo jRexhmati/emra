@@ -60,7 +60,7 @@
     <div class="index"><!--ALLNAMES--></div>
   </details>
 
-  <footer><a id="csv" href="/data.json" download="emrat_2016_2025.csv">Shkarko CSV</a> · Burimi: <a href="https://www.instat.gov.al/sq/kerko-emrin/" rel="noopener">INSTAT, Kërko Emrin</a>, numri vjetor nga grafiku i popullaritetit të secilit emër. Viti 2025 mund të jetë i paplotë. INSTAT kërkon drejtshkrimin e saktë (Arbër ≠ Arber). Gjinia me * do të thotë se emri është regjistruar për të dyja gjinitë; tregohet shumica.</footer>
+  <footer>Burimi: <a href="https://www.instat.gov.al/sq/kerko-emrin/" rel="noopener">INSTAT, Kërko Emrin</a>, numri vjetor nga grafiku i popullaritetit të secilit emër. Viti 2025 mund të jetë i paplotë. INSTAT kërkon drejtshkrimin e saktë (Arbër ≠ Arber). Gjinia me * do të thotë se emri është regjistruar për të dyja gjinitë; tregohet shumica.</footer>
 </div>
 
 <script>
@@ -91,10 +91,7 @@ for(const id of ["len","sex","act"])document.getElementById(id).addEventListener
   [...b.parentNode.children].forEach(x=>x.setAttribute("aria-pressed",x===b));const v=b.dataset.v;st[id]=id==="sex"?v:+v;st.shown=300;render()});
 document.getElementById("q").addEventListener("input",e=>{st.q=e.target.value;st.shown=300;if(DATA.length)render()});
 document.getElementById("more").addEventListener("click",()=>{st.shown+=300;render()});
-fetch("/data.json").then(r=>r.json()).then(raw=>{DATA=inflate(raw);render();
-  const H=["Renditja","Emri","Shkronja","Gjinia","Femra","Meshkuj","Gjithsej",...YEARS,"Gjithsej 2016-2025","Viti kulm"];
-  const csv=[H.join(",")].concat(DATA.map(d=>[d.r,d.n,d.len,d.g,d.f,d.m,d.t,...d.y,d.s,d.p].join(","))).join("\n");
-  document.getElementById("csv").href=URL.createObjectURL(new Blob(["﻿"+csv],{type:"text/csv"}));});
+fetch("/data.json").then(r=>r.json()).then(raw=>{DATA=inflate(raw);render();});
 </script>
 </body>
 </html>
